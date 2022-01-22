@@ -1,13 +1,14 @@
+#include <Rcpp.h>
+using namespace Rcpp;
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <list>
-#include <bitset>
 
-/********************************************************************/
-/**************************    CONSTANTS    *************************/
-/********************************************************************/
-#include "data.h"
+#include "support.h"
+
+using namespace std;
 
 /******************************************************************************/
 /*****************   Read Basis Operators from file  **************************/
@@ -30,26 +31,37 @@
 /*** VERSION a) Operators are written as the binary          ******************/
 /****           representation of the interactions           ******************/
 /******************************************************************************/
-list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename = basis_BinaryRepresentation_filename)
+//' Read basis operators in binary representation from input file.
+//' 
+//' Reads the Basis operators in binary representation from the given input 
+//' file. The operators should be written in one single column and as 
+//' binary representation of the spin involved in the Operator. Returns a 
+//' list of the basis with the integer value of that binary representation
+//' 
+//' @param Basis_binary_filename The name of input file including path.
+//' @param n Number of binary (spin) variables of the data set.
+//' 
+//' @return Basis_li List of the basis with the integer value of that binary representation.
+//' 
+//' @export
+// [[Rcpp::export(rng=false)]]
+std::list<uint32_t> Read_BasisOp_BinaryRepresentation(std::string Basis_binary_filename, unsigned int n)
 {
-  uint32_t Op = 0;
   list<uint32_t> Basis_li;
 
   ifstream myfile (Basis_binary_filename.c_str());
-  string line, line2;     
-
+  string line, line2;
+  
   if (myfile.is_open())
   {
     while ( getline (myfile,line))
     {
-      line2 = line.substr (0,n);          //take the n first characters of line
-
-      Op = bitset<n>(line2).to_ulong();   //convert string line2 into a binary integer
-      Basis_li.push_back(Op);   
+      line2 = line.substr (0,n); //take the n first characters of line
+      Basis_li.push_back(stoi(line2, 0, 2)); //convert string line2 into a binary integer
     }
     myfile.close();
   }
-
+  
   return Basis_li;
 }
 
@@ -57,7 +69,20 @@ list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename = 
 /*** VERSION b) Operators are written as the integer values of the binary *****/
 /****           representation of the interactions           ******************/
 /******************************************************************************/
-list<uint32_t> Read_BasisOp_IntegerRepresentation(string Basis_integer_filename = basis_IntegerRepresentation_filename)
+//' Read basis operators in integer representation from input file.
+//' 
+//' Reads the Basis operators in integer representation from the given input 
+//' file. The operators should be written in one single column and as the
+//' integer value of that binary representation. Returns a 
+//' list of the given input file.
+//' 
+//' @param Basis_integer_filename The name of input file including path.
+//' 
+//' @return Basis_li List of the given input file.
+//' 
+//' @export
+// [[Rcpp::export(rng=false)]]
+std::list<uint32_t> Read_BasisOp_IntegerRepresentation(std::string Basis_integer_filename)
 {
   uint32_t Op = 0;
   list<uint32_t> Basis_li;
@@ -81,12 +106,22 @@ list<uint32_t> Read_BasisOp_IntegerRepresentation(string Basis_integer_filename 
 /******************************************************************************/
 /*************************    Original Basis     ******************************/
 /******************************************************************************/
-list<uint32_t> Original_Basis()
+//' Original Basis
+//' 
+//' Return the original basis, i.e., {s1, s2, ..., sn}
+//' 
+//' @param n Number of binary (spin) variables of the data set.
+//' 
+//' @return Basis_li List of the original basis i.e. {s1, s2, ..., sn}.
+//' 
+//' @export
+// [[Rcpp::export(rng=false)]]
+std::list<uint32_t> Original_Basis(unsigned int n)
 {
   uint32_t Op = 1;
   list<uint32_t> Basis_li;
 
-  for (int i=0; i<n; i++)
+  for (unsigned int i=0; i<n; i++)
   {
     Basis_li.push_back(Op);
     Op = Op << 1;
@@ -98,12 +133,20 @@ list<uint32_t> Original_Basis()
 /******************************************************************************/
 /***************************    Print Basis     *******************************/
 /******************************************************************************/
-void PrintTerm_Basis(list<uint32_t> Basis_li)
+//' Print Basis
+//' 
+//' Print the basis info in the terminal.
+//' 
+//' @param Basis_li A list containing the basis.
+//' @param n Number of binary (spin) variables of the data set.
+//' 
+//' @export
+// [[Rcpp::export(rng=false)]]
+void PrintTerm_Basis(std::list<uint32_t> Basis_li, unsigned int n)
 {
   int i = 1;
   for (list<uint32_t>::iterator it = Basis_li.begin(); it != Basis_li.end(); it++)
   {
-    cout << "##\t " << i << " \t " << (*it) << " \t " << bitset<n>(*it) << endl; i++;
-  } cout << "##" << endl;
+    Rcpp::Rcout << "##\t " << i << " \t " << (*it) << " \t " << int_to_bstring(*it, n) << endl; i++;
+  } Rcpp::Rcout << "##" << endl;
 }
-
