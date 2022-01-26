@@ -5,18 +5,24 @@ An R package for MinCompSpin, an exhaustive search for the best Minimally Comple
 Instructions on how to use and install the package can be found in the jupyter notebook 'MinCompSpinPackageTutorial'. For more details on all the functions available, see the package's manual pages in MinCompSpinPackage_1.0_manual.pdf.
 
 ----
-# Package Dependencies
+## Package Dependencies
 - R (4.1.2 but earlier versions might work too)
 - Rcpp (>= 1.0.7)
-- C++ compiler g++ with c++11
-
+- C++11 compiler (g++ -std=c++11)
 
 ----
-# Installing the package
-## Linux/Mac systems
+## Installing the package
+The package can be installed like any R package from its compressed state as described below.
+
 1. Download the compressed package (tar.gz file).
+
+### Linux/Mac systems
 2. Install through terminal by using the command:
 R CMD INSTALL MinCompSpinPackage_1.0.tar.gz
+
+### Windows systems
+2. Install from a command line using:
+Rcmd INSTALL MinCompSpinPackage_1.0.tar.gz
 
 ----
 # Exhaustive search
