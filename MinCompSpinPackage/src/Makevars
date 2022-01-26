@@ -1,0 +1,9 @@
+CXX							= g++
+CXX_STD     		= CXX11
+CXXFLAGS				= -std=c++11 -O3
+PKG_CXXFLAGS		= -std=c++11 -O3
+PKG_CXX11FLAGS	= -std=c++11 -O3
+
+strippedLib: $(SHLIB)
+				if test -e "/usr/bin/strip" & test -e "/bin/uname" & [[ `uname` == "Linux" ]] ; then /usr/bin/strip --strip-debug $(SHLIB); fi
+.phony: strippedLib

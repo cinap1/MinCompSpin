@@ -1,0 +1,37 @@
+Package: MinCompSpinPackage
+Type: Package
+Title: Uncover and model community structures in binary data by doing
+        an exhaustive search for the best Minimally Complex Model (MCM)
+Version: 1.0
+Date: 2021-11-15
+Authors@R: c(
+    person("Clélia", "de Mulatier", role = c("aut", "ths")),
+    person("Reinier", "van Elderen", role = c("ctb")),
+    person("Selina", "Palić", role = c("aut", "cre"), 
+          email = "selinaa999@gmail.com"))
+Description: An interface for the original C++ based program MinCompSpin.
+      This program allows to uncover AND model community structures in binary data, 
+      while taking into account possible high order patterns of data in the 
+      detection of the communities (i.e., possible high-order correlations between the variables). 
+      The idea of the algorithm is based on performing statistical inference 
+      with a family of spin models (maximum entropy models for binary data) 
+      that have minimal information theoretic complexity. 
+      These models are called Minimally Complex Models (MCM). 
+      The selected model can be used as a generative model for data. This package 
+      is good for use on small systems, typically with <~15 variables
+      per binary data-point. Note that for ~15 variables, it may take several 
+      days to perform the exhaustive search since the number of possible models
+      grows exponentially with the number of variables.
+License: GPL (>= 3)
+Encoding: UTF-8
+SystemRequirements: C++11
+Depends: R (>= 4.1.2)
+Imports: Rcpp (>= 1.0.7)
+LinkingTo: Rcpp
+RoxygenNote: 7.1.2
+NeedsCompilation: yes
+Packaged: 2022-01-22 17:35:11 UTC; cina
+Author: Clélia de Mulatier [aut, ths],
+  Reinier van Elderen [ctb],
+  Selina Palić [aut, cre]
+Maintainer: Selina Palić <selinaa999@gmail.com>
