@@ -1,9 +1,3 @@
-
-# Package Dependencies
-To install Rcpp refer to:
-http://dirk.eddelbuettel.com/code/rcpp.html
-
-
 # Exhaustive search
 # for the best Minimally Complex spin Models (MCM)
 
